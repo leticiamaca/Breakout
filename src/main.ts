@@ -1,4 +1,4 @@
-import { Actor, CollisionType, Color, Engine, vec } from "excalibur";
+import { Actor, CollisionType, Color, Text, Engine, vec, Font } from "excalibur";
 // 1 - Criar uam instancia de engine, que representa o jogo
 const game = new Engine({
   width: 800,
@@ -43,7 +43,7 @@ bolinha.body.collisionType = CollisionType.Passive; //não reage a colisão mas 
 //CollisionType.Active //A bolinha reage a colisão
 
 // 5 Criar movimento da bolinha
-const velocidadeBolinha = vec(100, 100);
+const velocidadeBolinha = vec(500, 500);
 setTimeout(
   () => {
     //espera um determinado tempo para disparar a função
@@ -87,7 +87,7 @@ const yoffset = 20
 const colunas = 5
 const linhas = 3
 
-const corBloco = [Color.Violet, Color.Orange, Color.Yellow] // Para chamar a configuração color escreva color e depois dê um enter para ele ficar verde, pois se não, não dá certo
+const corBloco = [Color.Red, Color.Orange, Color.Yellow] // Para chamar a configuração color escreva color e depois dê um enter para ele ficar verde, pois se não, não dá certo
 
 const larguraBloco = (game.drawWidth / colunas) - padding - (padding / colunas) //drawWidth largura total
 // const larguraBloco = 136
@@ -95,7 +95,86 @@ const alturaBloco = 30
 
 const listaBlocos: Actor[] = []
 
+// Renderização dos bloquinhos
 
+
+//Renderiza 3 linhas 
+for(let j = 0; j < linhas; j++){
+  // Renderiza 5 bloquinhos
+for(let i = 0; i < colunas; i++){
+  listaBlocos.push(
+    new Actor({
+      x: xoffset + i * (larguraBloco + padding) + padding,//offset descolamento indica o deslocamento de um bloco para o outro, primeio bloco, o segundo bloco vai junto com i e conforme o i aumenta o proximo offset  e isso aumenta de uma forma que coloque um pouco mais para o lado de uma forma que desloque uma linha com um deslacamento em partes diferentes
+      y: yoffset + j *(alturaBloco + padding) + padding, //largura por fora e largura por dentro
+      width: larguraBloco,
+      height: alturaBloco,
+      color: corBloco[j]
+
+    })
+  )
+}
+}// Cria uma linha com 5 bloquinhos, cria outroa linha com mais 5 bloquinhos até dar 3 linhas
+
+
+listaBlocos.forEach( bloco => {
+  bloco.body.collisionType = CollisionType.Active
+  game.add(bloco)
+})
+
+
+let pontos = 0;
+
+const textoPontos = new Text({
+text: "Hello World",
+font: new Font({size: 20})
+})
+
+const objetoTexto = new Actor({
+  x: game.drawWidth - 50,
+  y: game.drawHeight - 50
+})
+
+game.add(objetoTexto)
+
+objetoTexto.graphics.use(textoPontos)
+
+let colidindo: boolean = false // vai começar como falso para mostrar que não está colidindo
+ //ajuda a detectar as colisoes
+
+ bolinha.on("collisionstart" , (event) => {
+  //Verificar se a bolinha colidiu com algum bloco destrutível
+  if(listaBlocos.includes(event.other)){
+    //event.other verifica se a bolinha colidiu com outro bloco dentro do lista de blocos
+    //se for, destruir o bloco colididio
+    event.other.kill()
+
+  }
+  // Rebater a bolinha Inverter as direções x e y 
+let interseccao = event.contact.mtv.normalize()
+// se não está colidindo
+//colidindo == false
+if(!colidindo){
+  colidindo = true
+  // interseccao.x e interseccao.y
+  //O maior representa o eixo onde houver o contato
+  if(Math.abs(interseccao.x) > Math.abs(interseccao.y)){
+    bolinha.vel.x = bolinha.vel.x * -1
+  }else{
+    bolinha.vel.y = -bolinha.vel.y
+  }
+}
+
+
+
+ })
+bolinha.on("collisionend" , () =>{
+  colidindo  = false
+})
+
+bolinha.on("exitviewport", () => {
+  alert("Morreu")
+  window.location.reload()
+})
 
 //iniciando o game
 game.start();
