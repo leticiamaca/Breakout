@@ -12,6 +12,7 @@ const loader = new Loader([ sound, sound2,sound3]);
 
 
 
+
 // 2 - Criar barra do player
 //todo objeto,npc,player aqui no excalibur é actor, depois que você digitou o actor dê um enter que ele irá fazer o import automático e depois coloca o parenteses
 const barra = new Actor({
@@ -42,10 +43,22 @@ const bolinha = new Actor({
   x: 100,
   y: 300,
   radius: 10,
-  color: Color.Red,
+  color: Color.Red
 });
 
 bolinha.body.collisionType = CollisionType.Passive; //não reage a colisão mas detecta um tipo de colisão
+// Lista de cores
+let coresBolinha = [Color.Black, 
+  Color.Cyan, 
+  Color.DarkGray, 
+  Color.Gray, 
+  Color.Magenta,
+Color.Orange,
+Color.Red,
+Color.Rose,
+Color.Violet]
+
+  let numeroCores = coresBolinha.length
 
 //CollisionType.Active //A bolinha reage a colisão
 
@@ -195,13 +208,15 @@ if(!colidindo){
   }
   if(pontos == 15){  
     sound2.play(1)
-    alert('win')
+    alert('Ganhou!')
   
 
   }
+  
 }
 
-
+//Mudar a cor da bolinha com a mesma cor do bloco que colidiu
+bolinha.color = event.other.color
 
  })
 
@@ -209,6 +224,10 @@ if(!colidindo){
 
 bolinha.on("collisionend" , () =>{
   colidindo  = false
+  // Mudar da bolinha 
+  // bolinha.color = coresBolinha[Math.floor(Math.random()*numeroCores)] MEU JEITO //floor arredonda para baixo, 1,89 é 1
+  // bolinha.color = coresBolinha[Math.trunc(Math.random()* numeroCores)]// Math.trunc ignora as casa decimais
+  
 })
 
 bolinha.on("exitviewport", () => {
