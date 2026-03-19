@@ -10,7 +10,7 @@ Este projeto é um jogo estilo **Breakout** — aquele clássico onde uma bolinh
 
 Não se trata de um produto final, mas sim de um **primeiro passo**: aprender na prática como funciona a lógica de um jogo, colisões, física simples e renderização, usando TypeScript como linguagem principal.
 
-<div><img src="./imgReadmeBreakOut-1.png"></div>
+<div><img src="./imgReadmeBreakOut-1.jpeg"></div>
 ---
 
 ## 🛠️ Tecnologias Utilizadas
@@ -24,7 +24,7 @@ Não se trata de um produto final, mas sim de um **primeiro passo**: aprender na
 
 ---
 
-<div><img src="./imgReadmeBreakOut-2.png"></div>
+<div><img src="./imgReadmeBreakOut-2.jpeg"></div>
 
 ## 📚 O que Aprendemos
 
